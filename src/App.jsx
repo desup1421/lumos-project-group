@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,13 +22,28 @@ import FormContainers from "./containers/FormContainers";
 import FormArticle from "./components/FormArticle";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
+
+  const handleSetToken = (newToken) => {
+    setToken(newToken);
+  };
+
+  // Function for check if user authenticated or not
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(token)
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
 
   /**
    * Function for handle Logout (temporary)
    */
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    localStorage.removeItem("token");
+    setToken('');
   };
 
   /**
@@ -37,7 +52,8 @@ const App = () => {
    * @returns {React.Component} - react component (children) or redirect to login page
    */
   const ProtectedRoute = ({ children }) => {
-    if (!isAuthenticated) {
+    console.log(token);
+    if (!token) {
       return <Navigate to="/login" replace />;
     }
     return children;
@@ -46,15 +62,15 @@ const App = () => {
   return (
     <>
       <Router>
-        {isAuthenticated && <Sidebar handleLogout={handleLogout} />}
+        {token && <Sidebar handleLogout={handleLogout} />}
         {/* Margin to make space for the sidebar */}
         <main
           className={`p-4 pt-12 bg-secondary dark:bg-neutral-900 min-h-screen ${
-            isAuthenticated && "lg:ml-64"
+            token && "lg:ml-64"
           }`}
         >
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setToken={handleSetToken} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/form" element={<FormContainers />} />
 
