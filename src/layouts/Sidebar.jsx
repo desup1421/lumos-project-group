@@ -15,7 +15,7 @@ const Sidebar = ({handleLogout}) => {
       <div className="fixed top-2 right-5 lg:hidden">
         <button
           type="button"
-          className="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-start bg-transparent border group border-accent text-white text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-accent/90 focus:outline-none focus:bg-aotline dark:bg-none dark:text-neutral-800 dark:hover:bg-accent "
+          className="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-start bg-white dark:bg-neutral-800 border group border-accent text-white text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-accent/90 focus:outline-none focus:bg-aotline dark:bg-none dark:text-neutral-800 dark:hover:bg-accent "
           aria-haspopup="dialog"
           aria-expanded="false"
           aria-controls="side-bar"

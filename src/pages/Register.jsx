@@ -4,6 +4,8 @@ import apiService from "../utils/api/api";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [ isLoading, setIsloading ] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -21,15 +23,20 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsloading(true);
     apiService
       .register(formData)
       .then((response) => {
         console.log(response.data);
+
         navigate('/login');
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => {
+        setIsloading(false);
+      })
   };
 
   return (
@@ -106,7 +113,11 @@ const Register = () => {
               </div>
             </div>
           </div>
-          <button className="bg-accent p-2 rounded-lg text-white w-32 mx-auto mt-5">
+          <button 
+            type="submit"
+            className="bg-accent p-2 rounded-lg text-white w-32 mx-auto mt-5 disabled:cursor-not-allowed disabled:bg-accent/50"
+            disabled={isLoading}
+          >
             Register
           </button>
           <p className="text-sm text-gray-500 text-center absolute bottom-3 left-0 w-full">
