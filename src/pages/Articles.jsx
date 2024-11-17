@@ -13,6 +13,23 @@ const Articles = () => {
     navigate("/articles/add");
   };
 
+  const handleClickEdit = (slug) => {
+    navigate(`/articles/edit/${slug}`);
+  }; 
+
+  const handleClickDelete = (id) => {
+    apiService
+      .deleteArticle(id)
+      .then((res) => {
+        console.log(res.data);
+        articleRefresh();
+        navigate("/articles");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     setIsLoading(true);
     apiService
@@ -106,17 +123,18 @@ const Articles = () => {
                     </td>
                     <td className="px-6 py-4 flex gap-1 justify-evenly flex-wrap text-end text-sm font-medium">
                       {/* Button Info */}
-                      <button
-                        type="button"
+                      <a
                         className="p-2 rounded-lg border border-blue-500"
+                        href = {`https://lumos-react-group-28.vercel.app/blog/${article.slug}`}
                       >
                         <i className="bx bx-info-circle text-blue-500"></i>
-                      </button>
+                      </a>
 
                       {/* Button Edit */}
                       <button
                         type="button"
                         className="p-2 rounded-lg border border-orange-500"
+                        onClick={() => handleClickEdit(article.slug)}
                       >
                         <i className="bx bx-pencil text-orange-500"></i>
                       </button>
@@ -125,6 +143,7 @@ const Articles = () => {
                       <button
                         type="button"
                         className="p-2 rounded-lg border border-red-500"
+                        onClick={() => handleClickDelete(article.id)}
                       >
                         <i className="bx bx-trash text-red-500"></i>
                       </button>
