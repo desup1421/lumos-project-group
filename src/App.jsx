@@ -144,6 +144,14 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="/articles/edit/:slug"
+                  element={
+                    <ProtectedRoute>
+                      <FormArticle />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
 
               <Route
