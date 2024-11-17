@@ -10,7 +10,7 @@ import Sidebar from "./layouts/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import AboutUs from "./pages/AboutUs";
-import Expertices from "./pages/Expertices";
+import Expertise from "./pages/Expertise";
 import Teams from "./pages/Teams";
 import Testimonial from "./pages/Testimonial";
 import Articles from "./pages/Articles";
@@ -19,8 +19,12 @@ import Messages from "./pages/Messages";
 import Portfolio from "./pages/Portfolio";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import FormContainers from "./containers/FormContainers";
 import FormArticle from "./components/FormArticle";
+import FormAbout from "./components/FormAbout";
+import FormExpertise from "./components/FormExpertise";
+import FormTeams from "./components/FormTeams";
+import FormWhatWeDo from "./components/FormWhatWeDo";
+import FormPortfolio from "./components/FormPortfolio";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -80,7 +84,7 @@ const App = () => {
                 element={<Login setToken={handleSetToken} />}
               />
               <Route path="/register" element={<Register />} />
-              <Route path="/form" element={<FormContainers />} />
+              <Route path="/form" element={<FormArticle />} />
 
               <Route
                 path="/"
@@ -91,32 +95,86 @@ const App = () => {
                 }
               />
 
-              <Route
-                path="/about"
-                element={
-                  <ProtectedRoute>
-                    <AboutUs />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/about"
+                  element={
+                    <ProtectedRoute>
+                      <AboutUs />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/about/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormAbout />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/about/edit"
+                  element={
+                    <ProtectedRoute>
+                      <FormAbout />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
 
-              <Route
-                path="/expertice"
-                element={
-                  <ProtectedRoute>
-                    <Expertices />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/expertise"
+                  element={
+                    <ProtectedRoute>
+                      <Expertise />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/expertise/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormExpertise />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/expertise/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormExpertise />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
 
-              <Route
-                path="/teams"
-                element={
-                  <ProtectedRoute>
-                    <Teams />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/teams"
+                  element={
+                    <ProtectedRoute>
+                      <Teams />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teams/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormTeams />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teams/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormTeams />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
 
               <Route
                 path="/testimonial"
@@ -154,14 +212,33 @@ const App = () => {
                 />
               </Route>
 
-              <Route
-                path="/what-we-do"
-                element={
-                  <ProtectedRoute>
-                    <WhatWeDo />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/what-we-do"
+                  element={
+                    <ProtectedRoute>
+                      <WhatWeDo />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/what-we-do/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormWhatWeDo />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/what-we-do/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormWhatWeDo />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+
 
               <Route
                 path="/messages"
@@ -172,14 +249,33 @@ const App = () => {
                 }
               />
 
-              <Route
-                path="/portfolio"
-                element={
-                  <ProtectedRoute>
-                    <Portfolio />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/portfolio"
+                  element={
+                    <ProtectedRoute>
+                      <Portfolio />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/portfolio/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormPortfolio />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/portfolio/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormPortfolio />
+                    </ProtectedRoute>
+                  }
+                />
+
+              </Route>
 
               <Route
                 path="*"

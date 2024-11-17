@@ -3,40 +3,27 @@ import { useNavigate } from "react-router-dom";
 import apiService from "../utils/api/api";
 import { ArticleContext } from "../utils/context/ArticleContext";
 
-const WhatWeDo = () => {
+const Expertise = () => {
   const { articleRefresh } = useContext(ArticleContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [whatWeDo, setWhatWeDo] = useState([]);
+  const [expertise, setExpertise] = useState([]);
 
   const handleClickAdd = () => {
-    navigate("/what-we-do/add");
+    navigate("/expertise/add");
   };
 
   const handleClickEdit = (id) => {
-    navigate(`/what-we-do/edit/${id}`);
-  };
-
-  const handleClickDelete = (id) => {
-    apiService
-      .deleteWhatWeDo(id)
-      .then((res) => {
-        console.log(res.data);
-        const updateWhatWeDo = whatWeDo.filter((item) => item.id !== id);
-        setWhatWeDo(updateWhatWeDo);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    navigate(`/expertise/edit/${id}`);
   };
 
   useEffect(() => {
     setIsLoading(true);
     apiService
-      .getWhatWeDo()
+      .getExpertise("")
       .then((res) => {
         console.log(res.data.data);
-        setWhatWeDo(res.data.data);
+        setExpertise(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -61,7 +48,7 @@ const WhatWeDo = () => {
           <div className="border rounded-lg overflow-x-auto dark:border-neutral-700">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
               <caption className="py-2 text-start text-sm text-gray-600 dark:text-neutral-500">
-                What We Do
+                Expertise
               </caption>
               <thead className="bg-gray-50 dark:bg-neutral-700">
                 {/* Button row */}
@@ -77,7 +64,7 @@ const WhatWeDo = () => {
                       className="py-1 px-2 bg-green-500 text-white rounded-sm float-right"
                     >
                       <i className="bx bx-add-to-queue mr-1"></i>
-                      Add new item
+                      Add new expertise
                     </button>
                   </th>
                 </tr>
@@ -87,7 +74,7 @@ const WhatWeDo = () => {
                     scope="col"
                     className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
                   >
-                    Image
+                    Icon
                   </th>
                   <th
                     scope="col"
@@ -110,14 +97,10 @@ const WhatWeDo = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                {whatWeDo.map((item, index) => (
+                {expertise.map((item, index) => (
                   <tr key={index}>
                     <td className="px-6 py-4 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      <img
-                        className="rounded-lg max-w-28 w-full object-cover"
-                        src={item.imageUrl}
-                        alt=""
-                      />
+                      <img className="rounded-lg max-w-10 w-full object-cover" src={item.iconUrl} alt="" />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
                       {item.title}
@@ -134,15 +117,6 @@ const WhatWeDo = () => {
                       >
                         <i className="bx bx-pencil text-orange-500"></i>
                       </button>
-
-                      {/* Button Delete */}
-                      <button
-                        type="button"
-                        className="p-2 rounded-lg border border-red-500"
-                        onClick={() => handleClickDelete(item.id)}
-                      >
-                        <i className="bx bx-trash text-red-500"></i>
-                      </button>
                     </td>
                   </tr>
                 ))}
@@ -155,4 +129,4 @@ const WhatWeDo = () => {
   );
 };
 
-export default WhatWeDo;
+export default Expertise;
