@@ -99,6 +99,25 @@ const apiService = {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     }),
+
+    // Portfolio API
+    getPortfolio: () => api.get('/api/portfolio'),
+    addPortfolio: (data) => api.post('/api/portfolio/', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    editPortfolio: (id, data) => api.put(`/api/portfolio/${id}/`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    deletePortfolio: (id) => api.delete(`/api/portfolio/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    
     
 }
 
