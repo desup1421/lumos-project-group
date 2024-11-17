@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ArticleContext } from "./utils/context/ArticleContext";
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,13 +23,30 @@ import FormContainers from "./containers/FormContainers";
 import FormArticle from "./components/FormArticle";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
+  const [articleRefresh, setArticleRefresh] = useState(false);
+  const updateArticleRefresh = () => {
+    setArticleRefresh(!articleRefresh);
+  };
+
+  const handleSetToken = (newToken) => {
+    setToken(newToken);
+  };
+
+  // Function for check if user authenticated or not
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
 
   /**
    * Function for handle Logout (temporary)
    */
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    localStorage.removeItem("token");
+    setToken("");
   };
 
   /**
@@ -37,7 +55,7 @@ const App = () => {
    * @returns {React.Component} - react component (children) or redirect to login page
    */
   const ProtectedRoute = ({ children }) => {
-    if (!isAuthenticated) {
+    if (!token) {
       return <Navigate to="/login" replace />;
     }
     return children;
@@ -46,118 +64,125 @@ const App = () => {
   return (
     <>
       <Router>
-        {isAuthenticated && <Sidebar handleLogout={handleLogout} />}
+        {token && <Sidebar handleLogout={handleLogout} />}
         {/* Margin to make space for the sidebar */}
         <main
           className={`p-4 pt-12 bg-secondary dark:bg-neutral-900 min-h-screen ${
-            isAuthenticated && "lg:ml-64"
+            token && "lg:ml-64"
           }`}
         >
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/form" element={<FormContainers />} />
-
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/about"
-              element={
-                <ProtectedRoute>
-                  <AboutUs />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/expertice"
-              element={
-                <ProtectedRoute>
-                  <Expertices />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/teams"
-              element={
-                <ProtectedRoute>
-                  <Teams />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/testimonial"
-              element={
-                <ProtectedRoute>
-                  <Testimonial />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route path="/articles">
+          <ArticleContext.Provider
+            value={{ articleRefresh, updateArticleRefresh }}
+          >
+            <Routes>
               <Route
-                path="/articles"
+                path="/login"
+                element={<Login setToken={handleSetToken} />}
+              />
+              <Route path="/register" element={<Register />} />
+              <Route path="/form" element={<FormContainers />} />
+
+              <Route
+                path="/"
                 element={
                   <ProtectedRoute>
-                    <Articles />
+                    <Dashboard />
                   </ProtectedRoute>
                 }
               />
+
               <Route
-                path="/articles/add"
+                path="/about"
                 element={
                   <ProtectedRoute>
-                    <FormArticle />
+                    <AboutUs />
                   </ProtectedRoute>
                 }
               />
-            </Route>
 
-            <Route
-              path="/what-we-do"
-              element={
-                <ProtectedRoute>
-                  <WhatWeDo />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/expertice"
+                element={
+                  <ProtectedRoute>
+                    <Expertices />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="/messages"
-              element={
-                <ProtectedRoute>
-                  <Messages />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/teams"
+                element={
+                  <ProtectedRoute>
+                    <Teams />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="/portfolio"
-              element={
-                <ProtectedRoute>
-                  <Portfolio />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/testimonial"
+                element={
+                  <ProtectedRoute>
+                    <Testimonial />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="*"
-              element={
-                <ProtectedRoute>
-                  <NotFound />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+              <Route>
+                <Route
+                  path="/articles"
+                  element={
+                    <ProtectedRoute>
+                      <Articles />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/articles/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormArticle />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+
+              <Route
+                path="/what-we-do"
+                element={
+                  <ProtectedRoute>
+                    <WhatWeDo />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/messages"
+                element={
+                  <ProtectedRoute>
+                    <Messages />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/portfolio"
+                element={
+                  <ProtectedRoute>
+                    <Portfolio />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="*"
+                element={
+                  <ProtectedRoute>
+                    <NotFound />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </ArticleContext.Provider>
         </main>
       </Router>
     </>
