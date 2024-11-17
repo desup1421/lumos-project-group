@@ -49,7 +49,11 @@ const apiService = {
         }
     }),
     getExpertise: (params) => api.get(`/api/expertise/?${params}`),
-    
+    getMessage: (params) => api.get(`/api/contact/?${params}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
 }
 
 export default apiService;
