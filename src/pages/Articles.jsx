@@ -22,8 +22,8 @@ const Articles = () => {
       .deleteArticle(id)
       .then((res) => {
         console.log(res.data);
-        articleRefresh();
-        navigate("/articles");
+        const updatedArticles = articles.filter((article) => article.id !== id);
+        setArticles(updatedArticles);
       })
       .catch((err) => {
         console.log(err);
