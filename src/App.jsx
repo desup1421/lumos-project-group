@@ -19,8 +19,8 @@ import Messages from "./pages/Messages";
 import Portfolio from "./pages/Portfolio";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import FormContainers from "./containers/FormContainers";
 import FormArticle from "./components/FormArticle";
+import FormAbout from "./components/FormAbout";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -80,7 +80,7 @@ const App = () => {
                 element={<Login setToken={handleSetToken} />}
               />
               <Route path="/register" element={<Register />} />
-              <Route path="/form" element={<FormContainers />} />
+              <Route path="/form" element={<FormArticle />} />
 
               <Route
                 path="/"
@@ -91,14 +91,32 @@ const App = () => {
                 }
               />
 
-              <Route
-                path="/about"
-                element={
-                  <ProtectedRoute>
-                    <AboutUs />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/about"
+                  element={
+                    <ProtectedRoute>
+                      <AboutUs />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/about/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormAbout />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/about/edit"
+                  element={
+                    <ProtectedRoute>
+                      <FormAbout />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
 
               <Route
                 path="/expertice"

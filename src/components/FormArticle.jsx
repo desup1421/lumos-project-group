@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import apiService from "../utils/api/api";
 import { ArticleContext } from "../utils/context/ArticleContext";
 
-const FormContainers = () => {
+const FormArticle = () => {
   const { updateArticleRefresh } = useContext(ArticleContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -269,4 +269,4 @@ const FormContainers = () => {
   );
 };
 
-export default FormContainers;
+export default FormArticle;

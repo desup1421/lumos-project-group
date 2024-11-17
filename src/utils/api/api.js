@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
-// const BASE_API_URL = 'https://cms-api-t3-lumoshive-academy.vercel.app';
 
 // Create an instance of axios with the base URL and headers
 const api = axios.create({
@@ -28,7 +27,17 @@ const apiService = {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     }),
-
+    addAbout: (data) => api.post('/api/about-us/', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    editAbout: (data) => api.put(`/api/about-us/`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    getAbout: () => api.get(`/api/about-us/`),
 }
 
 export default apiService;
