@@ -3,12 +3,12 @@ import Logo from "../assets/img/logo.png";
 import { Link } from "react-router-dom";
 
 /**
-* Component params.
-* @param {handleLogout} function - function for logout
-* @returns {React.Component} - react component for sidebar
-*/
+ * Component params.
+ * @param {handleLogout} function - function for logout
+ * @returns {React.Component} - react component for sidebar
+ */
 
-const Sidebar = ({handleLogout}) => {
+const Sidebar = ({ handleLogout }) => {
   return (
     <aside>
       {/* Navigation Toggle */}
@@ -22,7 +22,7 @@ const Sidebar = ({handleLogout}) => {
           aria-label="Toggle navigation"
           data-hs-overlay="#side-bar"
         >
-          <i className='bx bx-menu text-3xl text-accent group-hover:text-white'></i>
+          <i className="bx bx-menu text-3xl text-accent group-hover:text-white"></i>
         </button>
       </div>
       {/* End Navigation Toggle */}
@@ -115,7 +115,7 @@ const Sidebar = ({handleLogout}) => {
             <li>
               <Link
                 className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
-                to="/testimonial"
+                to="/testimonials"
               >
                 <i className="bx bx-user-voice text-lg"></i>
                 Testimonial
@@ -154,14 +154,13 @@ const Sidebar = ({handleLogout}) => {
                 Messages
               </Link>
             </li>
-
           </ul>
         </nav>
         {/* End of Nav */}
 
         {/* Button Logout */}
         <div className="flex">
-          <button 
+          <button
             onClick={handleLogout}
             className="bg-red-600 text-white w-40 mt-2 mx-auto  rounded-lg py-1 px-2 "
           >

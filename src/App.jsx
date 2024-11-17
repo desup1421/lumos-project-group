@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import FormContainers from "./containers/FormContainers";
 import FormArticle from "./components/FormArticle";
+import FormTestimonial from "./components/FormTestimonial";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -118,14 +119,34 @@ const App = () => {
                 }
               />
 
-              <Route
-                path="/testimonial"
-                element={
-                  <ProtectedRoute>
-                    <Testimonial />
-                  </ProtectedRoute>
-                }
-              />
+              {/* TESTIMONIALS START */}
+              <Route>
+                <Route
+                  path="/testimonials"
+                  element={
+                    <ProtectedRoute>
+                      <Testimonial />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/testimonials/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormTestimonial />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/testimonials/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormTestimonial />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              {/* TESTIMONIALS END */}
 
               <Route>
                 <Route
