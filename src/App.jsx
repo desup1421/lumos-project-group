@@ -10,7 +10,7 @@ import Sidebar from "./layouts/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import AboutUs from "./pages/AboutUs";
-import Expertices from "./pages/Expertices";
+import Expertise from "./pages/Expertise";
 import Teams from "./pages/Teams";
 import Testimonial from "./pages/Testimonial";
 import Articles from "./pages/Articles";
@@ -19,8 +19,9 @@ import Messages from "./pages/Messages";
 import Portfolio from "./pages/Portfolio";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import FormContainers from "./containers/FormContainers";
 import FormArticle from "./components/FormArticle";
+import FormAbout from "./components/FormAbout";
+import FormExpertise from "./components/FormExpertise";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -80,7 +81,7 @@ const App = () => {
                 element={<Login setToken={handleSetToken} />}
               />
               <Route path="/register" element={<Register />} />
-              <Route path="/form" element={<FormContainers />} />
+              <Route path="/form" element={<FormArticle />} />
 
               <Route
                 path="/"
@@ -91,23 +92,60 @@ const App = () => {
                 }
               />
 
-              <Route
-                path="/about"
-                element={
-                  <ProtectedRoute>
-                    <AboutUs />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/about"
+                  element={
+                    <ProtectedRoute>
+                      <AboutUs />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/about/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormAbout />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/about/edit"
+                  element={
+                    <ProtectedRoute>
+                      <FormAbout />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              
+              <Route>
+                <Route
+                  path="/expertise"
+                  element={
+                    <ProtectedRoute>
+                      <Expertise />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/expertise/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormExpertise />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/expertise/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormExpertise />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/expertice"
-                element={
-                  <ProtectedRoute>
-                    <Expertices />
-                  </ProtectedRoute>
-                }
-              />
+              </Route>
 
               <Route
                 path="/teams"
@@ -138,6 +176,14 @@ const App = () => {
                 />
                 <Route
                   path="/articles/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormArticle />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/articles/edit/:slug"
                   element={
                     <ProtectedRoute>
                       <FormArticle />

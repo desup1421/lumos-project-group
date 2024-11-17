@@ -3,40 +3,27 @@ import { useNavigate } from "react-router-dom";
 import apiService from "../utils/api/api";
 import { ArticleContext } from "../utils/context/ArticleContext";
 
-const Articles = () => {
+const Expertise = () => {
   const { articleRefresh } = useContext(ArticleContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [articles, setArticles] = useState([]);
+  const [expertise, setExpertise] = useState([]);
 
   const handleClickAdd = () => {
-    navigate("/articles/add");
+    navigate("/expertise/add");
   };
 
-  const handleClickEdit = (slug) => {
-    navigate(`/articles/edit/${slug}`);
-  }; 
-
-  const handleClickDelete = (id) => {
-    apiService
-      .deleteArticle(id)
-      .then((res) => {
-        console.log(res.data);
-        const updatedArticles = articles.filter((article) => article.id !== id);
-        setArticles(updatedArticles);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleClickEdit = (id) => {
+    navigate(`/expertise/edit/${id}`);
   };
 
   useEffect(() => {
     setIsLoading(true);
     apiService
-      .getArticle("page=1&limit=5")
+      .getExpertise("")
       .then((res) => {
         console.log(res.data.data);
-        setArticles(res.data.data);
+        setExpertise(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -61,7 +48,7 @@ const Articles = () => {
           <div className="border rounded-lg overflow-x-auto dark:border-neutral-700">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
               <caption className="py-2 text-start text-sm text-gray-600 dark:text-neutral-500">
-                Article List
+                Expertise
               </caption>
               <thead className="bg-gray-50 dark:bg-neutral-700">
                 {/* Button row */}
@@ -77,12 +64,18 @@ const Articles = () => {
                       className="py-1 px-2 bg-green-500 text-white rounded-sm float-right"
                     >
                       <i className="bx bx-add-to-queue mr-1"></i>
-                      Add new article
+                      Add new expertise
                     </button>
                   </th>
                 </tr>
                 {/* Table Header */}
                 <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
+                  >
+                    Icon
+                  </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
@@ -93,13 +86,7 @@ const Articles = () => {
                     scope="col"
                     className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
                   >
-                    Date
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
-                  >
-                    Writter
+                    Description
                   </th>
                   <th
                     scope="col"
@@ -110,42 +97,25 @@ const Articles = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                {articles.map((article, index) => (
+                {expertise.map((item, index) => (
                   <tr key={index}>
                     <td className="px-6 py-4 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                      {article.title}
+                      <img className="rounded-lg max-w-10 w-full object-cover" src={item.iconUrl} alt="" />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
-                      {article.date}
+                      {item.title}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-800 dark:text-neutral-200">
-                      {article.writer}
+                      {item.desc}
                     </td>
                     <td className="px-6 py-4 flex gap-1 justify-evenly flex-wrap text-end text-sm font-medium">
-                      {/* Button Info */}
-                      <a
-                        className="p-2 rounded-lg border border-blue-500"
-                        href = {`https://lumos-react-group-28.vercel.app/blog/${article.slug}`}
-                      >
-                        <i className="bx bx-info-circle text-blue-500"></i>
-                      </a>
-
                       {/* Button Edit */}
                       <button
                         type="button"
                         className="p-2 rounded-lg border border-orange-500"
-                        onClick={() => handleClickEdit(article.slug)}
+                        onClick={() => handleClickEdit(item.id)}
                       >
                         <i className="bx bx-pencil text-orange-500"></i>
-                      </button>
-
-                      {/* Button Delete */}
-                      <button
-                        type="button"
-                        className="p-2 rounded-lg border border-red-500"
-                        onClick={() => handleClickDelete(article.id)}
-                      >
-                        <i className="bx bx-trash text-red-500"></i>
                       </button>
                     </td>
                   </tr>
@@ -159,4 +129,4 @@ const Articles = () => {
   );
 };
 
-export default Articles;
+export default Expertise;

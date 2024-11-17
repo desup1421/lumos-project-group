@@ -1,11 +1,15 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import apiService from "../utils/api/api";
 import { ArticleContext } from "../utils/context/ArticleContext";
 
-const FormContainers = () => {
+const FormArticle = () => {
   const { updateArticleRefresh } = useContext(ArticleContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname.split("/").pop();
+  const { slug } = useParams();
+
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -13,10 +17,28 @@ const FormContainers = () => {
     image: null,
     meta_title: "",
     meta_desc: "",
-    meta_tag: "",
+    meta_tag: [],
     date: "",
     writer: "",
   });
+
+  useEffect(() => {
+    if (slug) {
+      setIsLoading(true);
+      apiService
+        .getArticleDetail(slug)
+        .then((res) => {
+          console.log(res.data.data);
+          setFormData(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [slug]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -31,11 +53,11 @@ const FormContainers = () => {
     setIsLoading(true);
     const data = new FormData();
     for (const key in formData) {
-      if(key === 'meta_tag' && formData[key]) {
-        const tags = formData[key].split(/[, ]+/).map(tag => tag.trim());
-        tags.forEach(tag => {
+      if (key === "meta_tag" && formData[key]) {
+        const tags = formData[key].split(', ').map((tag) => tag.trim());
+        tags.forEach((tag) => {
           data.append(`${key}[]`, tag);
-        })
+        });
       } else {
         data.append(key, formData[key]);
       }
@@ -55,6 +77,44 @@ const FormContainers = () => {
       });
   };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const data = new FormData();
+    for (const key in formData) {
+      if (key === "meta_tag" && formData[key]) {
+
+        const tags = Array.isArray(formData[key]) ? formData[key] : formData[key].split(', ').map((tag) => tag.trim());
+        tags.forEach((tag) => {
+          data.append(`${key}[]`, tag);
+        });
+      } else {
+        data.append(key, formData[key]);
+      }
+    }
+    apiService
+      .editArticle(formData.id, data)
+      .then((res) => {
+        console.log(res.data);
+        updateArticleRefresh();
+        navigate("/articles");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
   return (
     // Container
     <div className="flex flex-col min-h-lvh justify-center items-center">
@@ -69,10 +129,13 @@ const FormContainers = () => {
       {/* Card */}
       <div className="relative flex w-full max-w-lg flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
         <h1 className="text-center text-primary dark:text-white text-2xl font-bold uppercase">
-          Add article
+          {path === "add" ? "Add Article" : "Edit Article"}
         </h1>
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-1 py-10 md:p-10 flex flex-col justify-center">
+        <form
+          onSubmit={slug ? handleEdit : handleSubmit}
+          className="p-1 py-10 md:p-10 flex flex-col justify-center"
+        >
           <div className="space-y-3">
             {/* Title Input */}
             <div className="relative">
@@ -126,7 +189,7 @@ const FormContainers = () => {
                 className="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent outline-accent rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 placeholder="Meta Title"
                 name="meta_title"
-                value={formData.metaTitle}
+                value={formData.meta_title}
                 onChange={handleChange}
               />
               <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
@@ -156,7 +219,7 @@ const FormContainers = () => {
                 className="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent outline-accent rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 placeholder="Meta Tag"
                 name="meta_tag"
-                value={formData.meta_tag}
+                value={ formData.meta_tag}
                 onChange={handleChange}
               />
               <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
@@ -206,4 +269,4 @@ const FormContainers = () => {
   );
 };
 
-export default FormContainers;
+export default FormArticle;
