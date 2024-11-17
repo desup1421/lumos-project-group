@@ -8,8 +8,11 @@ const api = axios.create({
 });
 
 const apiService = {
+    // Auth end point
     register: (data) => api.post('/api/register/', data),
     login: (data) => api.post('/api/login/', data),
+
+    // Article end point
     addArticle: (data) => api.post('/api/article/', data, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -27,6 +30,8 @@ const apiService = {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     }),
+
+    // About end point
     addAbout: (data) => api.post('/api/about-us/', data, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -38,6 +43,8 @@ const apiService = {
         }
     }),
     getAbout: () => api.get(`/api/about-us/`),
+
+    // Expertise end point
     addExpertise: (data) => api.post('/api/expertise/', data, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -49,11 +56,15 @@ const apiService = {
         }
     }),
     getExpertise: (params) => api.get(`/api/expertise/?${params}`),
+
+    // Message end point
     getMessage: (params) => api.get(`/api/contact/?${params}`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     }),
+
+    // Team end point
     getTeam: (params) => api.get(`/api/team/?${params}`),
     addTeam: (data) => api.post('/api/team/', data, {
         headers: {
@@ -66,6 +77,24 @@ const apiService = {
         }
     }),
     deleteTeam: (id) => api.delete(`/api/team/${id}/`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+
+    // What we do end point
+    addWhatWeDo: (data) => api.post('/api/what-we-do/', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    editWhatWeDo: (id, data) => api.put(`/api/what-we-do/${id}/`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    getWhatWeDo: () => api.get(`/api/what-we-do/`),
+    deleteWhatWeDo: (id) => api.delete(`/api/what-we-do/${id}/`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

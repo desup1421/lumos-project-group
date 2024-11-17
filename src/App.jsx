@@ -23,6 +23,7 @@ import FormArticle from "./components/FormArticle";
 import FormAbout from "./components/FormAbout";
 import FormExpertise from "./components/FormExpertise";
 import FormTeams from "./components/FormTeams";
+import FormWhatWeDo from "./components/FormWhatWeDo";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -210,14 +211,33 @@ const App = () => {
                 />
               </Route>
 
-              <Route
-                path="/what-we-do"
-                element={
-                  <ProtectedRoute>
-                    <WhatWeDo />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/what-we-do"
+                  element={
+                    <ProtectedRoute>
+                      <WhatWeDo />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/what-we-do/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormWhatWeDo />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/what-we-do/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormWhatWeDo />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+
 
               <Route
                 path="/messages"
