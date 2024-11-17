@@ -38,6 +38,18 @@ const apiService = {
         }
     }),
     getAbout: () => api.get(`/api/about-us/`),
+    addExpertise: (data) => api.post('/api/expertise/', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    editExpertise: (id, data) => api.put(`/api/expertise/${id}/`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    getExpertise: (params) => api.get(`/api/expertise/?${params}`),
+    
 }
 
 export default apiService;

@@ -10,7 +10,7 @@ import Sidebar from "./layouts/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import AboutUs from "./pages/AboutUs";
-import Expertices from "./pages/Expertices";
+import Expertise from "./pages/Expertise";
 import Teams from "./pages/Teams";
 import Testimonial from "./pages/Testimonial";
 import Articles from "./pages/Articles";
@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import FormArticle from "./components/FormArticle";
 import FormAbout from "./components/FormAbout";
+import FormExpertise from "./components/FormExpertise";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -117,15 +118,34 @@ const App = () => {
                   }
                 />
               </Route>
+              
+              <Route>
+                <Route
+                  path="/expertise"
+                  element={
+                    <ProtectedRoute>
+                      <Expertise />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/expertise/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormExpertise />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/expertise/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormExpertise />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/expertice"
-                element={
-                  <ProtectedRoute>
-                    <Expertices />
-                  </ProtectedRoute>
-                }
-              />
+              </Route>
 
               <Route
                 path="/teams"
