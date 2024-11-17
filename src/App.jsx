@@ -25,6 +25,7 @@ import FormExpertise from "./components/FormExpertise";
 import FormTeams from "./components/FormTeams";
 import FormWhatWeDo from "./components/FormWhatWeDo";
 import FormPortfolio from "./components/FormPortfolio";
+import FormTestimonials from "./components/FormTestimonials";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -175,15 +176,33 @@ const App = () => {
                   }
                 />
               </Route>
-
-              <Route
-                path="/testimonial"
-                element={
-                  <ProtectedRoute>
-                    <Testimonial />
-                  </ProtectedRoute>
-                }
-              />
+              
+              <Route>
+                <Route
+                  path="/testimonial"
+                  element={
+                    <ProtectedRoute>
+                      <Testimonial />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/testimonial/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormTestimonials />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/testimonial/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormTestimonials />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
 
               <Route>
                 <Route

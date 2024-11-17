@@ -116,7 +116,25 @@ const apiService = {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-    })
+    }),
+
+    // Testimonial API
+    getTestimonial: () => api.get('/api/testimonials/'),
+    addTestimonial: (data) => api.post('/api/testimonials/', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    editTestimonial: (id, data) => api.put(`/api/testimonials/${id}/`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    deleteTestimonial: (id) => api.delete(`/api/testimonials/${id}/`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
     
     
 }
