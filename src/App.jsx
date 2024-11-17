@@ -22,6 +22,7 @@ import Register from "./pages/Register";
 import FormArticle from "./components/FormArticle";
 import FormAbout from "./components/FormAbout";
 import FormExpertise from "./components/FormExpertise";
+import FormTeams from "./components/FormTeams";
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -118,7 +119,7 @@ const App = () => {
                   }
                 />
               </Route>
-              
+
               <Route>
                 <Route
                   path="/expertise"
@@ -144,17 +145,34 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
-
               </Route>
 
-              <Route
-                path="/teams"
-                element={
-                  <ProtectedRoute>
-                    <Teams />
-                  </ProtectedRoute>
-                }
-              />
+              <Route>
+                <Route
+                  path="/teams"
+                  element={
+                    <ProtectedRoute>
+                      <Teams />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teams/add"
+                  element={
+                    <ProtectedRoute>
+                      <FormTeams />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teams/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FormTeams />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
 
               <Route
                 path="/testimonial"

@@ -54,6 +54,23 @@ const apiService = {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     }),
+    getTeam: (params) => api.get(`/api/team/?${params}`),
+    addTeam: (data) => api.post('/api/team/', data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    editTeam: (id, data) => api.put(`/api/team/${id}/`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    deleteTeam: (id) => api.delete(`/api/team/${id}/`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    }),
+    
 }
 
 export default apiService;
